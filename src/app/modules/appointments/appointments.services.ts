@@ -6,13 +6,22 @@ const prisma = new PrismaClient()
 
 const makeAppointment =async (data: Appointment): Promise<Appointment> => {
 
-    const isExist = await prisma.appointment.findMany({
+    const isExist = await prisma.appointment.findFirst({
         where: {
-          appointmentDate: data.appointmentDate,
-          barberId: data.barberId,
-          timeSlotId: data.timeSlotId,
+            AND: [
+                {
+                    appointmentDate: data.appointmentDate
+                },
+                {
+                    barberId: data.barberId
+                },
+                {
+                    timeSlotId: data.timeSlotId
+                },
+            ]
         },
       });
+      console.log(isExist);
 
     if(isExist){
         throw new ApiError(httpStatus.BAD_REQUEST, 'Barber is not available');
