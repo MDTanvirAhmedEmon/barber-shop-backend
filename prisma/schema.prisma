@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id String @id @default(uuid())
+  fullName String @map("full_name")
+  email String @unique
+  phone String @unique
+  role String @default("admin")
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin")
+}
+
+model Barber {
+  id String @id @default(uuid())
+  fullName String @map("full_name")
+  email String @unique
+  phone String? @unique
+  role String @default("barber")
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  appointments Appointment[]
+
+  @@map("barber")
+}
+
+model Customer {
+  id String @id @default(uuid())
+  fullName String @map("full_name")
+  email String @unique
+  phone String @unique
+  role String @default("customer")
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  customerProfile CustomerProfile?
+  appointments Appointment[]
+
+  @@map("customers")
+}
+
+model CustomerProfile {
+  id String @id @default(uuid())
+  profileImage String?
+  address String
+  gender String
+  maritalStatus String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  customerId String @unique @map("customer_id") 
+  customer Customer @relation(fields: [customerId], references: [id])
+
+  @@map("customer_profile")
+}
+
+model Service {
+  id String @id @default(uuid())
+  name String @unique
+  serviceImage String
+  price Int
+  description String?
+  updatedAt DateTime @updatedAt @map("updated_at")
+  appointments Appointment[]
+
+  @@map("service")
+}
+
+model Appointment {
+  id String @id @default(uuid())
+  appointmentDate DateTime @map("appointment_date")
+  status String @default("pending")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  customerId String @map("customer_id")
+  customer Customer @relation(fields: [customerId], references: [id])
+  payment Payment?
+
+  barberId String @map("barber_id")
+  barber Barber @relation(fields: [barberId], references: [id])
+
+  serviceId String @map("service_id")
+  services Service @relation(fields: [serviceId], references: [id])
+
+  timeSlotId String @map("time_slot_id")
+  timeSlot TimeSlot @relation(fields: [timeSlotId], references: [id])
+
+  @@unique([barberId, appointmentDate, timeSlotId])
+  @@map("appointments")
+}
+
+model TimeSlot {
+  id String @id @default(uuid())
+  startTime String @map("start_time")
+  endTime String @map("end_time")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  appointments Appointment[]
+
+  @@map("time_slot")
+}
+
+
+model Payment {
+  id String @id @default(uuid())
+  amount String
+  paymentDate DateTime @map("payment_date")
+  paymentStatus String @map("payment_status")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  appointmentId String @unique @map("appointment_id")
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  @@map("payment")
+}
