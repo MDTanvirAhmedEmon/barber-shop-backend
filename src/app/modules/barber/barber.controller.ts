@@ -32,8 +32,46 @@ const getSingleBarber = catchAsync(async (req: Request, res: Response) => {
     })
   })
 
+const deleteBarber = catchAsync(async (req: Request, res: Response) => {
+    
+    const { id } = req.params;
+    const result = await barberServices.deleteBarber(id);
+    sendResponse<Barber>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'delete barber successfully',
+      data: result,
+    })
+  })
+
+const updateBarber = catchAsync(async (req: Request, res: Response) => {
+    const { ...data } = req.body;
+    const { id } = req.params;
+    const result = await barberServices.updateBarber(data, id);
+    sendResponse<Barber>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'update barber successfully',
+      data: result,
+    })
+  })
+
+const getAllBarber = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await barberServices.getSAllBarber();
+    sendResponse<Barber[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'get all barber successfully',
+      data: result,
+    })
+  })
+
 
 export const barberController = {
     createBarber,
     getSingleBarber,
+    getAllBarber,
+    deleteBarber,
+    updateBarber,
 }

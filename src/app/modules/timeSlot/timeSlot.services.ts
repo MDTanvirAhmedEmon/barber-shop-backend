@@ -10,6 +10,25 @@ const createTimeSlot =async (data: TimeSlot): Promise<TimeSlot> => {
     return result;
 };
 
+
+const deleteTimeSlot = async (id: string): Promise<TimeSlot> => {
+    const result = await prisma.timeSlot.delete({
+        where: {
+            id,
+        }
+    });
+
+    return result;
+};
+
+
+const getAllTimeSlot = async (): Promise<TimeSlot[]> => {
+    const result = await prisma.timeSlot.findMany({});
+
+    return result;
+};
+
+
 const availableTimeSlot =async (appointmentDate: any, barberId: string): Promise<any> => {
 
     const bookedAppointment = await prisma.appointment.findMany({
@@ -33,7 +52,11 @@ const availableTimeSlot =async (appointmentDate: any, barberId: string): Promise
 };
 
 
+
+
 export const timeSlotServices = {
     createTimeSlot,
+    deleteTimeSlot,
+    getAllTimeSlot,
     availableTimeSlot,
 };

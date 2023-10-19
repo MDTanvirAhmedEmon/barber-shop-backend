@@ -19,15 +19,28 @@ model Admin {
   password String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-
+  
   @@map("admin")
+}
+model SuperAdmin {
+  id String @id @default(uuid())
+  fullName String @map("full_name")
+  email String @unique
+  phone String @unique
+  role String @default("admin")
+  password String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("super_admin")
 }
 
 model Barber {
   id String @id @default(uuid())
   fullName String @map("full_name")
   email String @unique
-  phone String? @unique
+  phone String @unique
+  barberImage String
   role String @default("barber")
   password String
   createdAt DateTime @default(now()) @map("created_at")
@@ -69,6 +82,7 @@ model CustomerProfile {
   @@map("customer_profile")
 }
 
+
 model Service {
   id String @id @default(uuid())
   name String @unique
@@ -90,7 +104,7 @@ model Appointment {
 
   customerId String @map("customer_id")
   customer Customer @relation(fields: [customerId], references: [id])
-  payment Payment?
+  paymentInfo PaymentInfo?
 
   barberId String @map("barber_id")
   barber Barber @relation(fields: [barberId], references: [id])
@@ -117,10 +131,10 @@ model TimeSlot {
 }
 
 
-model Payment {
+model PaymentInfo {
   id String @id @default(uuid())
   amount String
-  paymentDate DateTime @map("payment_date")
+  paymentMethod String
   paymentStatus String @map("payment_status")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -128,5 +142,5 @@ model Payment {
   appointmentId String @unique @map("appointment_id")
   appointment Appointment @relation(fields: [appointmentId], references: [id])
 
-  @@map("payment")
+  @@map("payment_info")
 }

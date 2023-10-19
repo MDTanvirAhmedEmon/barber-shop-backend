@@ -4,6 +4,8 @@ import { barberRouter } from '../modules/barber/barber.routes';
 import { timeSlotRouter } from '../modules/timeSlot/timeSlot.routes';
 import { serviceRouter } from '../modules/services/services.routes';
 import { appointmentRouter } from '../modules/appointments/appointments.routes';
+import { authRouter } from '../modules/auth/auth.routes';
+import { adminRouter } from '../modules/admin/admin.routes';
 
 const router = express.Router();
 
@@ -28,6 +30,14 @@ const moduleRoutes = [
   {
     path: "/appointments",
     routes: appointmentRouter,
+  },
+  {
+    path: "/auth",
+    routes: authRouter,
+  },
+  {
+    path: "/admin",
+    routes: adminRouter,
   },
 ];
 

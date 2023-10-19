@@ -18,6 +18,29 @@ const createTimeSlot = catchAsync(async (req: Request, res: Response) => {
     })
   })
 
+const deleteTimeSlot = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+    const result = await timeSlotServices.deleteTimeSlot(id);
+    sendResponse<TimeSlot>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'timeSlot deleted successfully',
+      data: result,
+    })
+  })
+
+const getAllTimeSlot = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await timeSlotServices.getAllTimeSlot();
+    sendResponse<TimeSlot[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'get all timeSlot successfully',
+      data: result,
+    })
+  })
+
 const availableTimeSlot = catchAsync(async (req: Request, res: Response) => {
 
   const {appointmentDate, barberId} = req.body;
@@ -33,5 +56,7 @@ const availableTimeSlot = catchAsync(async (req: Request, res: Response) => {
 
 export const timeSlotController = {
     createTimeSlot,
+    deleteTimeSlot,
+    getAllTimeSlot,
     availableTimeSlot,
 };
