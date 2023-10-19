@@ -133,9 +133,9 @@ model TimeSlot {
 
 model PaymentInfo {
   id String @id @default(uuid())
-  amount String
+  amount Int
   paymentMethod String
-  paymentStatus String @map("payment_status")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   

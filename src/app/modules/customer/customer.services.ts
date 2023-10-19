@@ -101,9 +101,24 @@ const getSAllCustomer = async (options: IPaginationOptions): Promise<any> => {
 };
 
 const getSingleCustomer = async (id: string): Promise<Customer | null> => {
+  
   const result = await prisma.customer.findUnique({
     where: {
       id,
+    },
+    include: {
+      customerProfile: true,
+    },
+  });
+
+  return result;
+};
+
+const getCustomerInfo = async (customerInfo: any): Promise<any> => {
+  
+  const result = await prisma.customer.findUnique({
+    where: {
+      email: customerInfo.email,
     },
     include: {
       customerProfile: true,
@@ -181,6 +196,7 @@ const updateCustomer = async (
 export const customerServices = {
   createCustomer,
   getSAllCustomer,
+  getCustomerInfo,
   getSingleCustomer,
   deleteCustomer,
   updateCustomer,

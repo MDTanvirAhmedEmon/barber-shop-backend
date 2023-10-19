@@ -58,6 +58,19 @@ const getSingleCustomer = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getCustomerInfo = catchAsync(async (req: Request, res: Response) => {
+    
+  const customer = req.user;
+  console.log(customer)
+  const result = await customerServices.getCustomerInfo(customer);
+  sendResponse<any>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'get single customer successfully',
+    data: result,
+  })
+})
+
 const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
   
   const { id } = req.params;
@@ -89,6 +102,7 @@ const updateCustomer = catchAsync(async (req: Request, res: Response) => {
 export const customerController = {
   createCustomer,
   getSAllCustomer,
+  getCustomerInfo,
   getSingleCustomer,
   deleteCustomer,
   updateCustomer,

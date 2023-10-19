@@ -44,6 +44,7 @@ const getAllTimeSlot = catchAsync(async (req: Request, res: Response) => {
 const availableTimeSlot = catchAsync(async (req: Request, res: Response) => {
 
   const {appointmentDate, barberId} = req.body;
+  console.log(appointmentDate, barberId);
 
     const result = await timeSlotServices.availableTimeSlot(appointmentDate, barberId);
     sendResponse<any>(res, {
