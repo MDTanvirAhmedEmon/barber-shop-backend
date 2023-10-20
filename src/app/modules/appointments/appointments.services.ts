@@ -90,8 +90,37 @@ const getSpecificAppointment = async(user: any):Promise<any> => {
 
 };
 
+const getAllAppointment = async():Promise<any> => {
+
+  const result = await prisma.appointment.findMany({
+    include: {
+      paymentInfo: true,
+      customer: true,
+      barber: true,
+      services: true,
+      timeSlot: true,
+    },
+  });
+
+  return result;
+};
+
+const updateAppointment = async(id: string, data: any):Promise<any> => {
+
+  const result = await prisma.appointment.update({
+    where:{
+      id,
+    },
+    data
+  });
+
+  return result;
+};
+
 
 export const appointmentServices = {
   makeAppointment,
   getSpecificAppointment,
+  getAllAppointment,
+  updateAppointment,
 };

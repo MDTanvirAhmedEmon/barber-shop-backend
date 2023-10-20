@@ -34,7 +34,32 @@ const getSpecificAppointment = catchAsync(async (req: Request, res: Response) =>
     })
 })
 
+const getAllAppointment = catchAsync(async (req: Request, res: Response) => {
+
+    const result = await appointmentServices.getAllAppointment();
+    sendResponse<Appointment[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'get all appointment successfully',
+      data: result,
+    })
+})
+
+const updateAppointment = catchAsync(async (req: Request, res: Response) => {
+  const { ...data } = req.body;
+  const { id } = req.params;
+  const result = await appointmentServices.updateAppointment(id, data);
+  sendResponse<any>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'update appointments successfully',
+    data: result,
+  })
+})
+
 export const appointmentController = {
     makeAppointment,
     getSpecificAppointment,
+    getAllAppointment,
+    updateAppointment
 };
