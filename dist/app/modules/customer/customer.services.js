@@ -29,7 +29,7 @@ const createCustomer = (customerProfile, customerData) => __awaiter(void 0, void
         },
     });
     if (isExist) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Email already exists');
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'User already exists');
     }
     const result = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
         const newCustomer = yield transactionClient.customer.create({

@@ -23,7 +23,7 @@ const createCustomer = async (
   });
 
   if (isExist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already exists');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User already exists');
   }
 
   const result = await prisma.$transaction(async transactionClient => {

@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 const loginUser = async (payload: any): Promise<any> => {
   const { email, password } = payload;
 
-  let isUserExist;
+  let isUserExist: any;
 
   const superAdmin = await prisma.superAdmin.findUnique({
     where: {
@@ -92,7 +92,7 @@ const refreshToken = async (token: string): Promise<any> => {
   
     const { email } = verifiedToken;
 
-    let isUserExist;
+    let isUserExist: any;
 
     const admin = await prisma.admin.findUnique({
       where: {
@@ -119,7 +119,7 @@ const refreshToken = async (token: string): Promise<any> => {
     if (admin || barber || customer) {
       isUserExist = admin || barber || customer;
     }
-    const payloadForToken = {
+    const payloadForToken: any = {
         fullName: isUserExist!.fullName,
         email: isUserExist!.email,
         role: isUserExist!.role,

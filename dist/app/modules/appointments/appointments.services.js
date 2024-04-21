@@ -79,7 +79,30 @@ const getSpecificAppointment = (user) => __awaiter(void 0, void 0, void 0, funct
     });
     return result;
 });
+const getAllAppointment = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma.appointment.findMany({
+        include: {
+            paymentInfo: true,
+            customer: true,
+            barber: true,
+            services: true,
+            timeSlot: true,
+        },
+    });
+    return result;
+});
+const updateAppointment = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma.appointment.update({
+        where: {
+            id,
+        },
+        data
+    });
+    return result;
+});
 exports.appointmentServices = {
     makeAppointment,
     getSpecificAppointment,
+    getAllAppointment,
+    updateAppointment,
 };

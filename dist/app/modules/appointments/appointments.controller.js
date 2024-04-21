@@ -50,7 +50,29 @@ const getSpecificAppointment = (0, catchAsync_1.default)((req, res) => __awaiter
         data: result,
     });
 }));
+const getAllAppointment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield appointments_services_1.appointmentServices.getAllAppointment();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'get all appointment successfully',
+        data: result,
+    });
+}));
+const updateAppointment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = __rest(req.body, []);
+    const { id } = req.params;
+    const result = yield appointments_services_1.appointmentServices.updateAppointment(id, data);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'update appointments successfully',
+        data: result,
+    });
+}));
 exports.appointmentController = {
     makeAppointment,
     getSpecificAppointment,
+    getAllAppointment,
+    updateAppointment
 };
