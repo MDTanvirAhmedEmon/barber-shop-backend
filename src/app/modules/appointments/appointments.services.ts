@@ -84,6 +84,41 @@ const getSpecificAppointment = async(user: any):Promise<any> => {
       services: true,
       timeSlot: true,
     },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+
+  return result;
+
+};
+
+const getBarberAppointment = async(user: any):Promise<any> => {
+
+  const barber = await prisma.barber.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+  
+  if ( !barber) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+
+  const result = await prisma.appointment.findMany({
+    where: {
+      barberId: barber.id,
+    },
+    include: {
+      paymentInfo: true,
+      customer: true,
+      barber: true,
+      services: true,
+      timeSlot: true,
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
 
   return result;
@@ -100,6 +135,9 @@ const getAllAppointment = async():Promise<any> => {
       services: true,
       timeSlot: true,
     },
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
 
   return result;
@@ -123,4 +161,5 @@ export const appointmentServices = {
   getSpecificAppointment,
   getAllAppointment,
   updateAppointment,
+  getBarberAppointment,
 };

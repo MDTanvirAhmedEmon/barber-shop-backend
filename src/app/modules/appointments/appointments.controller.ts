@@ -23,13 +23,25 @@ const makeAppointment = catchAsync(async (req: Request, res: Response) => {
 const getSpecificAppointment = catchAsync(async (req: Request, res: Response) => {
 
     const user = req.user;
-    console.log('hello',user);
 
     const result = await appointmentServices.getSpecificAppointment(user);
     sendResponse<Appointment[]>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'get appointments successfully',
+      data: result,
+    })
+})
+
+const getBarberAppointment = catchAsync(async (req: Request, res: Response) => {
+
+    const user = req.user;
+
+    const result = await appointmentServices.getBarberAppointment(user);
+    sendResponse<Appointment[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'get my appointments successfully',
       data: result,
     })
 })
@@ -61,5 +73,6 @@ export const appointmentController = {
     makeAppointment,
     getSpecificAppointment,
     getAllAppointment,
-    updateAppointment
+    updateAppointment,
+    getBarberAppointment,
 };
